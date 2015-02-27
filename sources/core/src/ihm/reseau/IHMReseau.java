@@ -14,6 +14,8 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
+import forme.Cercle;
+
 public class IHMReseau extends ApplicationAdapter {
 	ShapeRenderer shape;
 	Collection<Cercle> liseDeCercleRecu;
