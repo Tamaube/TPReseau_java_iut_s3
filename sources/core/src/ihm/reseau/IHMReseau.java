@@ -47,15 +47,4 @@ public class IHMReseau extends ApplicationAdapter {
 		
 	}
 	
-//	public void drawCirles()
-//	{
-//		shape.begin(ShapeType.Filled);
-//		shape.setColor(Color.BLUE);
-//		for(Cercle c : this.liseDeCercleRecu){
-//			
-//			shape.circle(c.getPosition().getX(), c.getPosition().getY(), 10);
-//			
-//		}
-//		shape.end();
-//	}
 }
