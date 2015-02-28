@@ -11,7 +11,7 @@ public class ExtractionDonneesFichier {
 		Collection<String> donneesEnListe = lecteurFic.getAllContenuFichier();
 		for(String ligne : donneesEnListe)
 		{
-			donneesFichier += ligne + "\n";
+			donneesFichier += ligne + " ";
 		}
 		return donneesFichier;
 	}

@@ -1,16 +1,21 @@
 package communication;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.Socket;
 import java.net.UnknownHostException;
+
+
+import Outils.ExtractionDonneesFichier;
 
 public class Client implements Ireseau {
 	Socket socketClient;
 	DataOutputStream dataOutput;
 	InputStream input;
-	
+
 	
 	public void init() throws UnknownHostException, IOException{
 		socketClient = new Socket("127.0.0.1",10666);
@@ -44,20 +49,39 @@ public class Client implements Ireseau {
 		input.close();
 	}
 	
-	public static void main(String [] args){
+	public void verificationConfiguration()
+	{
 		try {
-			Ireseau client = new Client();
-			client.init();
-			VerificationFicConf verif = new VerificationFicConfClient();
-			verif.init(client, "fichierConfiguration.txt");
-			verif.donneesSimilaire();
-			client.closeDataOutput();
-			client.closeInput();
+			this.init();
+			String dataEnvoyer = ExtractionDonneesFichier.extract("fichierConfiguration.txt");
+			this.dataOutput.writeBytes(dataEnvoyer + "\n");
+			
+			InputStream in = socketClient.getInputStream();
+			BufferedReader buff = new BufferedReader(new InputStreamReader(in));
+			String dataRecu = buff.readLine();
+	
+			if(dataRecu.equals(dataEnvoyer)){
+				System.out.println("dataIdentique");
+			}
+			System.out.println("dataEnvoyer: " + dataEnvoyer);
+			System.out.println("dataRecu: " + dataRecu);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 	}
+	
+
+	
+	public static void main(String [] args){
+		Ireseau client = new Client();
+		client.verificationConfiguration();
+		
+	}
+
 
 }
