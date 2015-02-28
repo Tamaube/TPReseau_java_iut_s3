@@ -9,7 +9,9 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 
+
 import Outils.ExtractionDonneesFichier;
+import Outils.Point;
 
 public class Client implements Ireseau {
 	Socket socketClient;
@@ -49,8 +51,9 @@ public class Client implements Ireseau {
 		input.close();
 	}
 	
-	public void verificationConfiguration()
+	public boolean verificationConfiguration()
 	{
+		boolean dataIdentique =false;
 		try {
 			this.init();
 			String dataEnvoyer = ExtractionDonneesFichier.extract("fichierConfiguration.txt");
@@ -59,12 +62,13 @@ public class Client implements Ireseau {
 			InputStream in = socketClient.getInputStream();
 			BufferedReader buff = new BufferedReader(new InputStreamReader(in));
 			String dataRecu = buff.readLine();
-	
-			if(dataRecu.equals(dataEnvoyer)){
-				System.out.println("dataIdentique");
-			}
-			System.out.println("dataEnvoyer: " + dataEnvoyer);
-			System.out.println("dataRecu: " + dataRecu);
+			
+			dataIdentique = dataRecu.equals(dataEnvoyer);
+//			if(dataRecu.equals(dataEnvoyer)){
+//				System.out.println("dataIdentique");
+//			}
+//			System.out.println("dataEnvoyer: " + dataEnvoyer);
+//			System.out.println("dataRecu: " + dataRecu);
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -72,10 +76,12 @@ public class Client implements Ireseau {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		return dataIdentique;
 	}
 	
-
+	public void envoiCoordonnees(Point<Float> position) throws IOException{
+		dataOutput.writeBytes(position.getX() + "," + position.getY() + "\n");
+	}
 	
 	public static void main(String [] args){
 		Ireseau client = new Client();

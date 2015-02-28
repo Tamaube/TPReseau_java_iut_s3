@@ -9,6 +9,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import Outils.ExtractionDonneesFichier;
+import Outils.Point;
 
 public class Serveur  implements Ireseau {
 	ServerSocket serverSocket;
@@ -51,7 +52,8 @@ public class Serveur  implements Ireseau {
 	
 
 	@Override
-	public void verificationConfiguration() {
+	public boolean verificationConfiguration() {
+		boolean dataIdentique =false;
 		try {
 			this.init();
 			String dataEnvoyer = ExtractionDonneesFichier.extract("fichierConfiguration.txt");
@@ -63,21 +65,24 @@ public class Serveur  implements Ireseau {
 
 			dataOutput.writeBytes(dataEnvoyer + "\n");
 			dataOutput.close();
+			dataIdentique = dataRecu.equals(dataEnvoyer);
+//			if(dataRecu.equals(dataEnvoyer)){
+//				System.out.println("dataIdentique");
+//			}
 			
-			if(dataRecu.equals(dataEnvoyer)){
-				System.out.println("dataIdentique");
-			}
-			
-			System.out.println("dataEnvoyer: " + dataEnvoyer);
-			System.out.println("dataRecu: " + dataRecu);
+//			System.out.println("dataEnvoyer: " + dataEnvoyer);
+//			System.out.println("dataRecu: " + dataRecu);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return dataIdentique;
 	}
 	
 	
-
+	public void envoiCoordonnees(Point<Float> position) throws IOException{
+		dataOutput.writeBytes(position.getX() + "," + position.getY() + "\n");
+	}
 	
 
 	public static void main(String [] args){
