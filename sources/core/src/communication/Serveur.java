@@ -8,6 +8,8 @@ import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import threads.RecevoirCoordonneesCercle_thread;
+import monde.Monde;
 import Outils.ExtractionDonneesFichier;
 import Outils.Point;
 
@@ -16,13 +18,22 @@ public class Serveur  implements Ireseau {
 	Socket socketClient;
 	DataOutputStream dataOutput;
 	InputStream input;
+	Monde monde;
 
 	
-	public void init() throws IOException{
+	public void init(int hauteur, int largeur) throws IOException{
 		serverSocket = new ServerSocket(10666);
 		socketClient = serverSocket.accept();
 		dataOutput = new DataOutputStream(socketClient.getOutputStream());
 		input = socketClient.getInputStream();
+		monde = new Monde( hauteur, largeur);
+		
+		Thread recuCoordThread = new RecevoirCoordonneesCercle_thread(this.input, this.monde);
+		
+		if (verificationConfiguration())
+		{
+			recuCoordThread.start();
+		}
 	}
 
 	@Override
@@ -37,25 +48,15 @@ public class Serveur  implements Ireseau {
 		return input;
 	}
 
-	@Override
-	public void closeDataOutput() throws IOException {
-		// TODO Auto-generated method stub
-		dataOutput.close();
-	}
 
-	@Override
-	public void closeInput() throws IOException {
-		// TODO Auto-generated method stub
-		input.close();
+	public Monde getMonde() {
+		return monde;
 	}
-	
-	
 
 	@Override
 	public boolean verificationConfiguration() {
 		boolean dataIdentique =false;
 		try {
-			this.init();
 			String dataEnvoyer = ExtractionDonneesFichier.extract("fichierConfiguration.txt");
 			
 			InputStream in = socketClient.getInputStream();

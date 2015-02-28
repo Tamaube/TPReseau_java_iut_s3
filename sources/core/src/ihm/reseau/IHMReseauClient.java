@@ -1,11 +1,9 @@
 package ihm.reseau;
 
-
 import java.io.IOException;
 import java.net.UnknownHostException;
 
 import monde.Element;
-import monde.Monde;
 import Outils.Point;
 
 import com.badlogic.gdx.ApplicationAdapter;
@@ -14,18 +12,18 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.GL20;
 
+import communication.Client;
 import communication.Ireseau;
-import communication.Serveur;
 
-
-public class IHMReseau extends ApplicationAdapter {
-	Ireseau serveur = new Serveur();
+public class IHMReseauClient extends ApplicationAdapter {
+	
+	Ireseau client = new Client();
 	AffichageElement affichageCercle;
 	
 	@Override
 	public void create () {
 		try {
-			serveur.init(Gdx.graphics.getHeight(),Gdx.graphics.getWidth());
+			client.init(Gdx.graphics.getHeight(),Gdx.graphics.getWidth());
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -34,7 +32,7 @@ public class IHMReseau extends ApplicationAdapter {
 			e.printStackTrace();
 		}
 		affichageCercle = new AffichageCercle();
-		affichageCercle.init(serveur.getMonde());
+		affichageCercle.init(client.getMonde());
 	}
 
 	@Override
@@ -43,7 +41,7 @@ public class IHMReseau extends ApplicationAdapter {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 			
 		affichageCercle.begin();
-		for(Element<Float> cercle: serveur.getMonde().getCercles()){
+		for(Element<Float> cercle: client.getMonde().getCercles()){
 			affichageCercle.affiche(cercle);
 		}
 		affichageCercle.end();
@@ -53,7 +51,7 @@ public class IHMReseau extends ApplicationAdapter {
 				if (button == Input.Buttons.LEFT) {
 					Point<Float> position = new Point<Float>((float) x, (float) Gdx.graphics.getHeight() - y);
 					try {
-						serveur.envoiCoordonnees(position);
+						client.envoiCoordonnees(position);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -65,5 +63,4 @@ public class IHMReseau extends ApplicationAdapter {
 		});
 		
 	}
-	
 }

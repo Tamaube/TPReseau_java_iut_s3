@@ -10,6 +10,9 @@ import java.net.UnknownHostException;
 
 
 
+
+import monde.Monde;
+import threads.RecevoirCoordonneesCercle_thread;
 import Outils.ExtractionDonneesFichier;
 import Outils.Point;
 
@@ -17,12 +20,20 @@ public class Client implements Ireseau {
 	Socket socketClient;
 	DataOutputStream dataOutput;
 	InputStream input;
-
+	Monde monde;
 	
-	public void init() throws UnknownHostException, IOException{
+	public void init(int hauteur, int largeur) throws UnknownHostException, IOException{
 		socketClient = new Socket("127.0.0.1",10666);
 		dataOutput = new DataOutputStream(socketClient.getOutputStream());
 		input = socketClient.getInputStream();
+		monde = new Monde( hauteur, largeur);
+		
+		Thread recuCoordThread = new RecevoirCoordonneesCercle_thread(this.input, this.monde);
+		
+		if (verificationConfiguration())
+		{
+			recuCoordThread.start();
+		}
 	}
 	
 	
@@ -38,24 +49,11 @@ public class Client implements Ireseau {
 		return input;
 	}
 
-	@Override
-	public void closeDataOutput() throws IOException {
-		// TODO Auto-generated method stub
-		dataOutput.close();
-		
-	}
 
-	@Override
-	public void closeInput() throws IOException {
-		// TODO Auto-generated method stub
-		input.close();
-	}
-	
 	public boolean verificationConfiguration()
 	{
 		boolean dataIdentique =false;
 		try {
-			this.init();
 			String dataEnvoyer = ExtractionDonneesFichier.extract("fichierConfiguration.txt");
 			this.dataOutput.writeBytes(dataEnvoyer + "\n");
 			
@@ -77,6 +75,10 @@ public class Client implements Ireseau {
 			e.printStackTrace();
 		}
 		return dataIdentique;
+	}
+	
+	public Monde getMonde() {
+		return monde;
 	}
 	
 	public void envoiCoordonnees(Point<Float> position) throws IOException{
