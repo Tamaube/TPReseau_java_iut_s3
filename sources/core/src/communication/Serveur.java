@@ -65,7 +65,7 @@ public class Serveur  implements Ireseau {
 			String dataRecu = buff.readLine();
 
 			dataOutput.writeBytes(dataEnvoyer + "\n");
-			dataOutput.close();
+
 			dataIdentique = dataRecu.equals(dataEnvoyer);
 //			if(dataRecu.equals(dataEnvoyer)){
 //				System.out.println("dataIdentique");
@@ -82,7 +82,7 @@ public class Serveur  implements Ireseau {
 	
 	
 	public void envoiCoordonnees(Point<Float> position) throws IOException{
-		dataOutput.writeBytes(position.getX() + "," + position.getY() + "\n");
+		dataOutput.writeBytes(position.getX() + ":" + position.getY() + "\n");
 	}
 	
 

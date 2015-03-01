@@ -82,7 +82,7 @@ public class Client implements Ireseau {
 	}
 	
 	public void envoiCoordonnees(Point<Float> position) throws IOException{
-		dataOutput.writeBytes(position.getX() + "," + position.getY() + "\n");
+		dataOutput.writeBytes(position.getX() + ":" + position.getY() + "\n");
 	}
 	
 	public static void main(String [] args){
