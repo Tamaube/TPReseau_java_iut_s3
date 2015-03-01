@@ -33,7 +33,7 @@ public class IHMReseau extends ApplicationAdapter {
 			e.printStackTrace();
 		}
 		affichageCercle = new AffichageCercle();
-		affichageCercle.init(serveur.getMonde());
+		affichageCercle.init();
 	}
 
 	@Override
@@ -41,7 +41,6 @@ public class IHMReseau extends ApplicationAdapter {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 			
-		serveur.renouvelerReception();
 		
 		affichageCercle.begin();
 		for(Element<Float> cercle: serveur.getMonde().getCercles()){

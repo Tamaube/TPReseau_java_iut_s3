@@ -20,23 +20,24 @@ public class RecevoirCoordonneesCercle_thread extends Thread {
 	public void run()
 	{
 		try {
-			BufferedReader buff = new BufferedReader(new InputStreamReader(input));
-			String ligne;
-			ligne = buff.readLine();
-			
-		if (ligne !=null)
+		while(true)
 		{
-			System.out.println("serveur: " + ligne + "\tx: " + ligne.substring(0, ligne.indexOf(':')) + "\ty: " + ligne.substring(ligne.indexOf(':') + 1, ligne.length()));
-			float x = Float.parseFloat(ligne.substring(0, ligne.indexOf(':')));
-			float y = Float.parseFloat(ligne.substring(ligne.indexOf(':') + 1, ligne.length()));
-			monde.ajoutCercle(new Point<Float>(x,y));
+				BufferedReader buff = new BufferedReader(new InputStreamReader(input));
+				String ligne;
+				ligne = buff.readLine();
+				
+			if (ligne !=null)
+			{
+				float x = Float.parseFloat(ligne.substring(0, ligne.indexOf(':')));
+				float y = Float.parseFloat(ligne.substring(ligne.indexOf(':') + 1, ligne.length()));
+				monde.ajoutCercle(new Point<Float>(x,y));
+			}
 		}
-		
-		this.interrupt();
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		} 
 		 
 	}
 }

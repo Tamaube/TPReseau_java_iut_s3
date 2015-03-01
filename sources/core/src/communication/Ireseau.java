@@ -16,7 +16,7 @@ public interface Ireseau {
 	public boolean verificationConfiguration();
 	public void envoiCoordonnees(Point<Float> position) throws IOException;
 	
-	public void renouvelerReception();
+//	public void renouvelerReception();
 	
 	public Monde getMonde();
 }

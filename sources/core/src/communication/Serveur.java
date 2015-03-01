@@ -68,12 +68,7 @@ public class Serveur  implements Ireseau {
 			dataOutput.writeBytes(dataEnvoyer + "\n");
 
 			dataIdentique = dataRecu.equals(dataEnvoyer);
-//			if(dataRecu.equals(dataEnvoyer)){
-//				System.out.println("dataIdentique");
-//			}
-			
-//			System.out.println("dataEnvoyer: " + dataEnvoyer);
-//			System.out.println("dataRecu: " + dataRecu);
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -85,15 +80,6 @@ public class Serveur  implements Ireseau {
 	public void envoiCoordonnees(Point<Float> position) throws IOException{
 		dataOutput.writeBytes(position.getX() + ":" + position.getY() + "\n");
 	}
-	
 
-	@Override
-	public void renouvelerReception() {
-		// TODO Auto-generated method stub
-		if (canStart && this.recuCoordThread.getState() == Thread.State.NEW)
-		{
-			this.recuCoordThread.start();
-		}
-	}
 	
 }

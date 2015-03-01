@@ -2,22 +2,19 @@ package ihm.reseau;
 
 import monde.Cercle;
 import monde.Element;
-import monde.Monde;
 import Outils.Point;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
 public class AffichageCercle implements AffichageElement {
 	private ShapeRenderer shapeRenderer ;
-	private Monde monde;
+
 	
 	@Override
-	public void init(Monde unMonde) {
+	public void init() {
 		// TODO Auto-generated method stub
-		monde = unMonde;
 		shapeRenderer  = new ShapeRenderer();
 	}
 	
@@ -41,7 +38,7 @@ public class AffichageCercle implements AffichageElement {
 	public void affiche(Element<Float> element) {
 		// TODO Auto-generated method stub
 		Point<Float> pt = element.getCoordonnees();
-		shapeRenderer.circle(pt.getX()/monde.getWidth()*Gdx.graphics.getWidth(), pt.getY()/monde.getHeight()*Gdx.graphics.getHeight(), Cercle.taille);		
+		shapeRenderer.circle(pt.getX(), pt.getY(), Cercle.taille);		
 	}
 	
 }

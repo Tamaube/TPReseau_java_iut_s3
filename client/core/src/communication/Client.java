@@ -11,6 +11,7 @@ import java.net.UnknownHostException;
 
 
 
+
 import monde.Monde;
 import threads.RecevoirCoordonneesCercle_thread;
 import Outils.ExtractionDonneesFichier;
@@ -64,11 +65,7 @@ public class Client implements Ireseau {
 			String dataRecu = buff.readLine();
 			
 			dataIdentique = dataRecu.equals(dataEnvoyer);
-//			if(dataRecu.equals(dataEnvoyer)){
-//				System.out.println("dataIdentique");
-//			}
-//			System.out.println("dataEnvoyer: " + dataEnvoyer);
-//			System.out.println("dataRecu: " + dataRecu);
+
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -86,15 +83,5 @@ public class Client implements Ireseau {
 	public void envoiCoordonnees(Point<Float> position) throws IOException{
 		dataOutput.writeBytes(position.getX() + ":" + position.getY() + "\n");
 	}
-	
-	@Override
-	public void renouvelerReception() {
-		// TODO Auto-generated method stub
-		if (canStart && this.recuCoordThread.getState() == Thread.State.TERMINATED)
-		{
-			this.recuCoordThread.start();
-		}
-	}
-
 
 }
