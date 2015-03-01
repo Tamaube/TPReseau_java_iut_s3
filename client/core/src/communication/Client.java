@@ -21,6 +21,8 @@ public class Client implements Ireseau {
 	DataOutputStream dataOutput;
 	InputStream input;
 	Monde monde;
+	boolean canStart;
+	Thread recuCoordThread;
 	
 	public void init(int hauteur, int largeur) throws UnknownHostException, IOException{
 		socketClient = new Socket("127.0.0.1",10666);
@@ -28,10 +30,10 @@ public class Client implements Ireseau {
 		input = socketClient.getInputStream();
 		monde = new Monde( hauteur, largeur);
 		
-		Thread recuCoordThread = new RecevoirCoordonneesCercle_thread(this.input, this.monde);
+		recuCoordThread = new RecevoirCoordonneesCercle_thread(this.input, this.monde);
 		
-		if (verificationConfiguration())
-		{
+		canStart = verificationConfiguration();
+		if (canStart) {
 			recuCoordThread.start();
 		}
 	}
@@ -85,10 +87,13 @@ public class Client implements Ireseau {
 		dataOutput.writeBytes(position.getX() + ":" + position.getY() + "\n");
 	}
 	
-	public static void main(String [] args){
-		Ireseau client = new Client();
-		client.verificationConfiguration();
-		
+	@Override
+	public void renouvelerReception() {
+		// TODO Auto-generated method stub
+		if (canStart && this.recuCoordThread.getState() == Thread.State.TERMINATED)
+		{
+			this.recuCoordThread.start();
+		}
 	}
 
 

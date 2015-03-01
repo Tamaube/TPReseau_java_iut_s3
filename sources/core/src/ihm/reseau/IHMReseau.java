@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.net.UnknownHostException;
 
 import monde.Element;
-import monde.Monde;
 import Outils.Point;
 
 import com.badlogic.gdx.ApplicationAdapter;
@@ -42,6 +41,8 @@ public class IHMReseau extends ApplicationAdapter {
 		Gdx.gl.glClearColor(1, 1, 1, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 			
+		serveur.renouvelerReception();
+		
 		affichageCercle.begin();
 		for(Element<Float> cercle: serveur.getMonde().getCercles()){
 			affichageCercle.affiche(cercle);

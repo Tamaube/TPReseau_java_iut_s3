@@ -26,10 +26,11 @@ public class RecevoirCoordonneesCercle_thread extends Thread {
 			
 			if (ligne !=null)
 			{
-				System.out.println("client: " + ligne  + "\tx: " + ligne.substring(0, ligne.indexOf(':')) + "\ty: " + ligne.substring(0, ligne.indexOf(':')));
-				float x = Float.parseFloat(ligne.substring(0, ligne.indexOf(',')));
-				float y = Float.parseFloat(ligne.substring(0, ligne.indexOf(',')));
+				System.out.println("client: " + ligne  + "\tx: " + ligne.substring(0, ligne.indexOf(':')) + "\ty: " + ligne.substring(ligne.indexOf(':') + 1, ligne.length() ));
+				float x = Float.parseFloat(ligne.substring(0, ligne.indexOf(':')));
+				float y = Float.parseFloat(ligne.substring(ligne.indexOf(':') + 1, ligne.length()));
 				monde.ajoutCercle(new Point<Float>(x,y));
+				this.interrupt();
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

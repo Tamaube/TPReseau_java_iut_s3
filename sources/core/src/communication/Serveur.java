@@ -19,7 +19,8 @@ public class Serveur  implements Ireseau {
 	DataOutputStream dataOutput;
 	InputStream input;
 	Monde monde;
-
+	boolean canStart;
+	Thread recuCoordThread;
 	
 	public void init(int hauteur, int largeur) throws IOException{
 		serverSocket = new ServerSocket(10666);
@@ -28,10 +29,10 @@ public class Serveur  implements Ireseau {
 		input = socketClient.getInputStream();
 		monde = new Monde( hauteur, largeur);
 		
-		Thread recuCoordThread = new RecevoirCoordonneesCercle_thread(this.input, this.monde);
+		recuCoordThread = new RecevoirCoordonneesCercle_thread(this.input, this.monde);
 		
-		if (verificationConfiguration())
-		{
+		canStart = verificationConfiguration();
+		if (canStart) {
 			recuCoordThread.start();
 		}
 	}
@@ -86,11 +87,13 @@ public class Serveur  implements Ireseau {
 	}
 	
 
-	public static void main(String [] args){
-		Ireseau serveur = new Serveur();
-		serveur.verificationConfiguration();
-		
+	@Override
+	public void renouvelerReception() {
+		// TODO Auto-generated method stub
+		if (canStart && this.recuCoordThread.getState() == Thread.State.NEW)
+		{
+			this.recuCoordThread.start();
+		}
 	}
-	
 	
 }
